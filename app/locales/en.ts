@@ -51,7 +51,6 @@ const en: LocaleType = {
       Masks: "Masks",
       Clear: "Clear Context",
       Settings: "Settings",
-      Internet: "Internet Search",
     },
     Rename: "Rename Chat",
     Typing: "Typing…",

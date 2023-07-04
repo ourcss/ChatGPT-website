@@ -33,7 +33,6 @@ const fr: PartialLocaleType = {
       Masks: "Masques",
       Clear: "Effacer le Contexte",
       Settings: "Paramètres",
-      Internet: "Recherche sur Internet",
     },
     Rename: "Renommer la conversation",
     Typing: "En train d'écrire…",
