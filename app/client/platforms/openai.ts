@@ -1,4 +1,9 @@
-import { OpenaiPath, REQUEST_TIMEOUT_MS, SearxPath } from "@/app/constant";
+import {
+  OpenaiPath,
+  REQUEST_TIMEOUT_MS,
+  SearxPath,
+  DEFAULT_API_HOST,
+} from "@/app/constant";
 import { useAccessStore, useAppConfig, useChatStore } from "@/app/store";
 
 import { ChatOptions, getHeaders, LLMApi, LLMUsage } from "../api";
@@ -18,6 +23,9 @@ export class ChatGPTApi implements LLMApi {
   }
   path(path: string): string {
     let openaiUrl = useAccessStore.getState().openaiUrl;
+    if (openaiUrl.length === 0) {
+      openaiUrl = DEFAULT_API_HOST;
+    }
     if (openaiUrl.endsWith("/")) {
       openaiUrl = openaiUrl.slice(0, openaiUrl.length - 1);
     }
@@ -49,6 +57,7 @@ export class ChatGPTApi implements LLMApi {
       temperature: modelConfig.temperature,
       presence_penalty: modelConfig.presence_penalty,
       frequency_penalty: modelConfig.frequency_penalty,
+      top_p: modelConfig.top_p,
     };
 
     console.log("[Request] openai payload: ", requestPayload);
