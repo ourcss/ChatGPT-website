@@ -21,9 +21,12 @@ import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
 import BreakIcon from "../icons/break.svg";
 import SettingsIcon from "../icons/chat-settings.svg";
+import OnlineIcon from "../icons/online.svg";
+import OfflineIcon from "../icons/offline.svg";
 import DeleteIcon from "../icons/clear.svg";
 import PinIcon from "../icons/pin.svg";
 import EditIcon from "../icons/rename.svg";
+
 import LightIcon from "../icons/light.svg";
 import DarkIcon from "../icons/dark.svg";
 import AutoIcon from "../icons/auto.svg";
@@ -464,6 +467,18 @@ export function ChatActions(props: {
           });
         }}
       />
+      <ChatAction
+        onClick={nextModel}
+        text={currentModel}
+        icon={<RobotIcon />}
+      />
+      <ChatAction
+        onClick={() => {
+          chatStore.updateWebSearchStat();
+        }}
+        text={Locale.Chat.InputActions.Internet}
+        icon={chatStore.webSearch ? <OnlineIcon /> : <OfflineIcon />}
+      />
     </div>
   );
 }
@@ -472,8 +487,9 @@ export function Chat() {
   type RenderMessage = ChatMessage & { preview?: boolean };
 
   const chatStore = useChatStore();
-  const [session, sessionIndex] = useChatStore((state) => [
+  const [session, webSearch, sessionIndex] = useChatStore((state) => [
     state.currentSession(),
+    state.webSearch,
     state.currentSessionIndex,
   ]);
   const config = useAppConfig();
@@ -561,7 +577,7 @@ export function Chat() {
     }
   };
 
-  const doSubmit = (userInput: string) => {
+  const doSubmit = async (userInput: string) => {
     if (userInput.trim() === "") return;
     const matchCommand = chatCommands.match(userInput);
     if (matchCommand.matched) {
@@ -571,7 +587,10 @@ export function Chat() {
       return;
     }
     setIsLoading(true);
-    chatStore.onUserInput(userInput).then(() => setIsLoading(false));
+    const webresults = await chatStore.onWebsearch(userInput);
+    chatStore
+      .onUserInput(webSearch ? `${webresults}:${userInput}` : userInput)
+      .then(() => setIsLoading(false));
     localStorage.setItem(LAST_INPUT_KEY, userInput);
     setUserInput("");
     setPromptHints([]);

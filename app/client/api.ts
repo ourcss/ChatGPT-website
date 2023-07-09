@@ -39,6 +39,7 @@ export interface LLMUsage {
 }
 
 export abstract class LLMApi {
+  abstract websearch(query: String): Promise<string>;
   abstract chat(options: ChatOptions): Promise<void>;
   abstract usage(): Promise<LLMUsage>;
 }
