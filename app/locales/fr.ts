@@ -21,19 +21,6 @@ const fr: PartialLocaleType = {
       Retry: "Réessayer",
       Delete: "Supprimer",
     },
-    InputActions: {
-      Stop: "Arrêter",
-      ToBottom: "Aux plus récents",
-      Theme: {
-        auto: "Automatique",
-        light: "Thème Clair",
-        dark: "Thème Sombre",
-      },
-      Prompt: "Invitations",
-      Masks: "Masques",
-      Clear: "Effacer le Contexte",
-      Settings: "Paramètres",
-    },
     Rename: "Renommer la conversation",
     Typing: "En train d'écrire…",
     Input: (submitKey: string) => {
